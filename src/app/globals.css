@@ -2,26 +2,374 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+body {
+  color: #1a1a2e;
+  background:
+    radial-gradient(circle, rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(180deg, #f0f4f8 0%, #e8eef6 50%, #f0f4f8 100%);
+  background-size: 20px 20px, 100% 100%;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Noto Sans JP", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ===== グラスモーフィズムヘッダー ===== */
+.gradient-header {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #3730a3 100%);
+  position: relative;
+}
+.gradient-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.gradient-header > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== グラスカード ===== */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-subtle {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ===== カードホバー ===== */
+.card-hover {
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07),
+    0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+.card-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15),
+    0 12px 24px -8px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== 気づきバナー（グラス版） ===== */
+.insight-banner {
+  border-left: 4px solid #f59e0b;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 251, 235, 0.8),
+    rgba(254, 243, 199, 0.6)
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ===== フェードインアニメーション ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out both;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+
+/* ===== グラデーションテキスト ===== */
+.gradient-text {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== ボタン輝度 ===== */
+.btn-glow {
+  transition: all 0.3s ease;
+}
+.btn-glow:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+/* ===== 浮遊する背景円 ===== */
+.bg-orbs {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.08);
+  filter: blur(80px);
+}
+
+.bg-orb-1 {
+  width: 500px;
+  height: 500px;
+  top: -100px;
+  left: -120px;
+  animation: orbFloat1 20s ease-in-out infinite;
+}
+
+.bg-orb-2 {
+  width: 400px;
+  height: 400px;
+  top: 30%;
+  right: -80px;
+  background: rgba(139, 92, 246, 0.06);
+  animation: orbFloat2 25s ease-in-out infinite;
+}
+
+.bg-orb-3 {
+  width: 600px;
+  height: 600px;
+  bottom: -150px;
+  left: 30%;
+  background: rgba(6, 182, 212, 0.06);
+  animation: orbFloat3 22s ease-in-out infinite;
+}
+
+.bg-orb-4 {
+  width: 350px;
+  height: 350px;
+  top: 60%;
+  left: -60px;
+  background: rgba(99, 102, 241, 0.05);
+  animation: orbFloat4 18s ease-in-out infinite;
+}
+
+@keyframes orbFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(60px, 40px) scale(1.05); }
+  66%      { transform: translate(-30px, 80px) scale(0.95); }
+}
+
+@keyframes orbFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(-50px, 60px) scale(1.08); }
+  66%      { transform: translate(40px, -30px) scale(0.92); }
+}
+
+@keyframes orbFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(70px, -50px) scale(0.95); }
+  66%      { transform: translate(-40px, -20px) scale(1.06); }
+}
+
+@keyframes orbFloat4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(30px, -70px) scale(1.1); }
+  66%      { transform: translate(50px, 30px) scale(0.9); }
+}
+
+/* ===== サイドバー ===== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 60px;
+  z-index: 40;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.sidebar:hover {
+  width: 260px;
+}
+
+.sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 12px 8px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.04);
+}
+
+/* ラベル: 折りたたみ時は非表示 */
+.sidebar-label {
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease 0.05s, transform 0.2s ease 0.05s;
+  font-size: 0.875rem;
+  color: #374151;
+}
+.sidebar:hover .sidebar-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* アイコン共通 */
+.sidebar-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+}
+
+/* ロゴ / ホーム */
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+  margin-bottom: 4px;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+.sidebar-logo:hover {
+  background: rgba(59, 130, 246, 0.08);
+}
+
+/* 検索 */
+.sidebar-search {
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.03);
+  margin-bottom: 4px;
+  overflow: hidden;
+}
+.sidebar-search-input {
+  width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.8rem;
+  padding: 6px 0;
+  color: #374151;
+  transition: width 0.3s ease;
+}
+.sidebar:hover .sidebar-search-input {
+  width: 160px;
+  padding: 6px 8px 6px 0;
+}
+.sidebar-search-input::placeholder {
+  color: #9ca3af;
+}
+
+/* 区切り線 */
+.sidebar-divider {
+  height: 1px;
+  margin: 6px 10px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* ナビ */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 2px 0;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+.sidebar-link:hover {
+  background: rgba(59, 130, 246, 0.08);
+}
+.sidebar-link-active {
+  background: rgba(59, 130, 246, 0.12);
+}
+.sidebar-link-active .sidebar-label {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* 実績 */
+.sidebar-stats {
+  padding: 4px 0;
+}
+.sidebar-stats-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.sidebar-stats-grid {
+  display: flex;
+  gap: 2px;
+  padding: 0 4px;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: opacity 0.2s ease 0.1s, height 0.3s ease;
+}
+.sidebar:hover .sidebar-stats-grid {
+  opacity: 1;
+  height: 52px;
+}
+.sidebar-stat {
+  flex: 1;
+  text-align: center;
+  background: rgba(59, 130, 246, 0.06);
+  border-radius: 8px;
+  padding: 6px 4px;
+}
+.sidebar-stat-value {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+.sidebar-stat-label {
+  display: block;
+  font-size: 0.6rem;
+  color: #6b7280;
+  margin-top: 1px;
+}
+
+/* 気づき投稿ボタン */
+.sidebar-cta {
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+.sidebar-cta:hover {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(59, 130, 246, 0.18));
+}
+.sidebar-cta .sidebar-label {
+  color: #6d28d9;
+}
+
+/* ===== メインコンテンツのオフセット ===== */
+@media (min-width: 768px) {
+  .main-with-sidebar {
+    margin-left: 60px;
   }
 }

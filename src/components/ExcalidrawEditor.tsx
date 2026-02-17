@@ -3,14 +3,8 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 
-const ExcalidrawWrapper = dynamic(
-  () =>
-    import("@excalidraw/excalidraw").then((mod) => {
-      // CSSをロード
-      import("@excalidraw/excalidraw/index.css");
-      const { Excalidraw } = mod;
-      return { default: Excalidraw };
-    }),
+const Excalidraw = dynamic(
+  async () => (await import("@excalidraw/excalidraw")).Excalidraw,
   {
     ssr: false,
     loading: () => (
@@ -146,7 +140,7 @@ export default function ExcalidrawEditor() {
         className="border border-gray-200 rounded-xl overflow-hidden"
         style={{ height: 600 }}
       >
-        <ExcalidrawWrapper
+        <Excalidraw
           key={tabKey}
           excalidrawAPI={(instance: unknown) => {
             apiRef.current = instance;
